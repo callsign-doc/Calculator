@@ -22,18 +22,19 @@ function divide(a, b) {
 function operate (firstNumber, operator, secondNumber) {
     switch (operator) {
         case '+':
-            //
+            add(firstNumber, secondNumber);
             break;
         case '-':
-            //
+            subtract(firstNumber, secondNumber);
             break;
         case 'x':
-            //
+            multiply(firstNumber, secondNumber);
             break;
         case '÷':
-            //
+            divide(firstNumber, secondNumber);
             break;
         default:
             alert('INVALID OPERATOR');
     }
 };
+
