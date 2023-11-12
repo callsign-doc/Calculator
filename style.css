@@ -1,8 +1,41 @@
 #mainContainer {
+    border: 1px solid #000;
+}
+
+#calculatorContainer {
+    border: 5px solid #ff6c6c;
+
+    display: flex;
+    flex-shrink: 0;
+    
+
+    width: 60%;
+}
+
+#display {
+    background-color: aquamarine;
+}
+
+#buttonContainer {
+    border: 1px solid #6ca7ff;
+
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+#numberContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+#operatorColumn {
     display: flex;
     flex-direction: column;
 }
 
 button {
-    margin: 3px;
+    height: 50px;
+    width: 50px;
 }
