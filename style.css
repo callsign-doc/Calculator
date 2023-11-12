@@ -12,6 +12,10 @@
     width: 60%;
 }
 
+#classA {
+    border: 1px solid #6cff82;
+}
+
 #display {
     background-color: aquamarine;
 }
@@ -26,6 +30,8 @@
 }
 
 #numberContainer {
+    border: 1px solid #fffa6c;
+
     display: flex;
     flex-direction: column;
 }
