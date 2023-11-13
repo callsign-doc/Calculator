@@ -42,8 +42,12 @@ function operate (firstNumber, operator, secondNumber) {
 //DOM MANIPULATION
 const buttonContainer = document.getElementById('buttonContainer');
 
+const display = document.getElementById('operationDisplay');
+let expression = '';
+
 buttonContainer.addEventListener('click', event => {
     let target = event.target;
 
-    alert(target.textContent);
+    expression = expression + ` ${target.textContent}`
+    display.textContent = expression;
 });
