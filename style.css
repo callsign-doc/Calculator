@@ -11,27 +11,37 @@
     flex-direction: column;
 
     border: 1px solid #6cff82;
+    /* background-color: rgb(42, 42, 42); */
+
     width: 240px;
 }
 
-#display {
+#displayContainer {
     background-color: rgba(200, 200, 200, 0);
-    height: 80px;
+    height: 40px;
     margin-bottom: 10px;
     border: 2px solid #0c0c0c;
 
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    /* flex-direction: column; */
+    justify-content: center;
 
-    padding: 5px;
+
+    padding: 10px;
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
 
     font-size: 25px;
     font-weight: bold;
 }
-#operationDisplay, #resultDisplay {
-    margin-left: auto;
+#display {
+    display: flex;
+    align-items: center;
+
+    
 }
+
 
 #buttonContainer {
     border: 1px solid #6ca7ff;

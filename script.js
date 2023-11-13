@@ -42,12 +42,16 @@ function operate (firstNumber, operator, secondNumber) {
 //DOM MANIPULATION
 const buttonContainer = document.getElementById('buttonContainer');
 
-const display = document.getElementById('operationDisplay');
+const display = document.getElementById('display');
 let expression = '';
 
 buttonContainer.addEventListener('click', event => {
     let target = event.target;
 
     expression = expression + ` ${target.textContent}`
-    display.textContent = expression;
+    display.textContent = target.textContent;
 });
+
+function performOperation(expression) {
+
+}
