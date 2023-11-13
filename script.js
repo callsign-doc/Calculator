@@ -38,3 +38,10 @@ function operate (firstNumber, operator, secondNumber) {
     }
 };
 
+// test button interactivity by testing on row 3
+const row3 = document.getElementById('row3');
+row3.addEventListener('click', event => {
+    let target = event.target;
+
+    alert(target.textContent);
+});
