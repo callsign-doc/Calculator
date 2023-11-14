@@ -45,11 +45,15 @@ const buttonContainer = document.getElementById('buttonContainer');
 const display = document.getElementById('display');
 let expression = '';
 
-buttonContainer.addEventListener('click', event => {
+function updateDisplay(event) {
     let target = event.target;
 
     expression = expression + ` ${target.textContent}`
     display.textContent = target.textContent;
+}
+
+buttonContainer.addEventListener('click', event => {
+    updateDisplay(event);
 });
 
 function performOperation(expression) {
