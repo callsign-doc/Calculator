@@ -43,13 +43,15 @@ function operate (firstNumber, operator, secondNumber) {
 const buttonContainer = document.getElementById('buttonContainer');
 
 const display = document.getElementById('display');
-let expression = '';
+let expression = [];
 
 function updateDisplay(event) {
     let target = event.target;
 
-    expression = expression + ` ${target.textContent}`
+    expression.push(target.textContent);
     display.textContent = target.textContent;
+
+    alert(expression);
 }
 
 buttonContainer.addEventListener('click', event => {
