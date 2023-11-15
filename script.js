@@ -51,7 +51,10 @@ function updateDisplay(event) {
 
     if (button.parentElement.id === 'operatorColumn') {
         if (button.textContent === '=') {
-            display.textContent = operate(firstNumber, operator, secondNumber);
+            let result = operate(firstNumber, operator, secondNumber);
+            display.textContent = result;
+            firstNumber = result;
+
         } else {
             operator = button.textContent;
             console.log('operatin time');
@@ -66,15 +69,17 @@ function updateDisplay(event) {
             } else {
                 secondNumber = secondNumber + button.textContent;
             }
+            display.textContent = secondNumber;
         } else {
             if (firstNumber === '0') {
                 firstNumber = button.textContent;
             } else {
                 firstNumber = firstNumber + button.textContent;
             }
+            display.textContent = firstNumber;
         }
 
-        display.textContent = button.textContent;
+        
     }
 
     expression.push(button.textContent);
