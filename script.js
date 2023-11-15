@@ -1,7 +1,7 @@
 //to update UI
-let firstNumber = '';
+let firstNumber = '0';
 let operator;
-let secondNumber = '';
+let secondNumber = '0';
 
 function add (a, b) {
     return a + b;
@@ -22,17 +22,13 @@ function divide(a, b) {
 function operate (firstNumber, operator, secondNumber) {
     switch (operator) {
         case '+':
-            add(firstNumber, secondNumber);
-            break;
+            return add(firstNumber, secondNumber);
         case '-':
-            subtract(firstNumber, secondNumber);
-            break;
+            return subtract(firstNumber, secondNumber);
         case 'x':
-            multiply(firstNumber, secondNumber);
-            break;
+            return multiply(firstNumber, secondNumber);
         case '÷':
-            divide(firstNumber, secondNumber);
-            break;
+            return divide(firstNumber, secondNumber);
         default:
             alert('INVALID OPERATOR');
     }
@@ -54,26 +50,42 @@ function updateDisplay(event) {
     let button = event.target;
 
     if (button.parentElement.id === 'operatorColumn') {
-        operator = button.textContent;
-        console.log('operatin time');
+        if (button.textContent === '=') {
+            display.textContent = operate(firstNumber, operator, secondNumber);
+        } else {
+            operator = button.textContent;
+            console.log('operatin time');
 
-        firstNumberSet = true;
+            firstNumberSet = true;
+            display.textContent = button.textContent;
+        }
     } else {
         if (firstNumberSet) {
-            secondNumber = secondNumber + button.textContent;
+            if (secondNumber === '0') {
+                secondNumber = button.textContent;
+            } else {
+                secondNumber = secondNumber + button.textContent;
+            }
         } else {
-            firstNumber = firstNumber + button.textContent;
+            if (firstNumber === '0') {
+                firstNumber = button.textContent;
+            } else {
+                firstNumber = firstNumber + button.textContent;
+            }
         }
+
+        display.textContent = button.textContent;
     }
 
     expression.push(button.textContent);
-    display.textContent = button.textContent;
+    
 
     //DEBUG AREA
     console.log(`expression: ${expression}, firstNumber: ${firstNumber}, operator: ${operator}, secondNumber: ${secondNumber}`);
     console.log(' ')
 }
 
+//add functionality to button
 buttonContainer.addEventListener('click', event => {
     updateDisplay(event);
 });
