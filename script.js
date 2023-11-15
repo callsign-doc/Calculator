@@ -1,7 +1,7 @@
 //to update UI
-let firstNumber;
+let firstNumber = '';
 let operator;
-let secondNumber;
+let secondNumber = '';
 
 function add (a, b) {
     return a + b;
@@ -43,15 +43,35 @@ function operate (firstNumber, operator, secondNumber) {
 const buttonContainer = document.getElementById('buttonContainer');
 
 const display = document.getElementById('display');
+display.textContent = '0';
+
+//if firstNumberSet is true, the button that user input will set value of secondNumber
+let firstNumberSet = false;
 let expression = [];
 
+
 function updateDisplay(event) {
-    let target = event.target;
+    let button = event.target;
 
-    expression.push(target.textContent);
-    display.textContent = target.textContent;
+    if (button.parentElement.id === 'operatorColumn') {
+        operator = button.textContent;
+        console.log('operatin time');
 
-    alert(expression);
+        firstNumberSet = true;
+    } else {
+        if (firstNumberSet) {
+            secondNumber = secondNumber + button.textContent;
+        } else {
+            firstNumber = firstNumber + button.textContent;
+        }
+    }
+
+    expression.push(button.textContent);
+    display.textContent = button.textContent;
+
+    //DEBUG AREA
+    console.log(`expression: ${expression}, firstNumber: ${firstNumber}, operator: ${operator}, secondNumber: ${secondNumber}`);
+    console.log(' ')
 }
 
 buttonContainer.addEventListener('click', event => {
