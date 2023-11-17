@@ -1,9 +1,12 @@
 //to update UI
 let firstNumber = '0';
 let operator;
-let secondNumber = '0';
+let secondNumber = '';
 
+let finalResult = '';
+let lastSecondNum = '';
 
+let iteration = 0;
 
 function operate (firstNumber, operator, secondNumber) {
     function add (a, b) {
@@ -77,11 +80,18 @@ function resetCalculator() {
     //reset to original state
     firstNumber = '0';
     operator = '';
-    secondNumber = '0';
+    //secondNumber = '';
+    // finalResult = '';
 
     firstNumberSet = false;
     expression = [];
     valueToPush = '';
+}
+
+function hardReset() {
+    finalResult = '';
+    secondNumber = '';
+    lastSecondNum = '';
 }
 
 //DOM MANIPULATION
@@ -103,20 +113,47 @@ function updateDisplay(event) {
         if (button.textContent === '=') {
             expression.push(valueToPush);
 
-            let result = operateExpression(expression);
-            display.textContent = result;
+            // if (secondNumber === '') {
+            //     if (finalResult !== '') {
+            //         secondNumber = lastSecondNum;
+            //         lastSecondNum = '';
+            //         expression.push(secondNumber);
+            //     } else {
+            //         secondNumber = '0';
+            //     }
+            // }
+
+            finalResult = operateExpression(expression);
+            lastSecondNum = secondNumber;
+            console.log(`lastSecondNum for use: ${lastSecondNum}`);
+            display.textContent = finalResult;
 
             resetCalculator();
+
+            //to debug
+            iteration += 1;
         } else {
             //after two string of number (eg. 20 x 30 + dummy), reset second number to '0' so that it can be set for the next number
             if (secondNumber !== '0'){
-                secondNumber = '';
+                if (lastSecondNum !== '') {
+
+                } else {
+                    secondNumber = '';
+                }
             }
 
             operator = button.textContent;
             console.log('operatin time');
 
             firstNumberSet = true;
+
+            //enable calculator input such as 1+2 =, this result in 3, then DIRECTLY press + 1, result in 4
+            if (finalResult !== '') {
+                firstNumber = finalResult;
+                valueToPush = firstNumber;
+                // finalResult = '';
+            }
+
             display.textContent = button.textContent;
 
             //push number, then operator
@@ -126,10 +163,11 @@ function updateDisplay(event) {
     } else {
         if (button.textContent === 'C') {
             resetCalculator();
+            hardReset();
             display.textContent = firstNumber;
 
         } else if (firstNumberSet) {
-            if (secondNumber === '0') {
+            if (secondNumber === '') {
                 secondNumber = button.textContent;
             } else {
                 secondNumber = secondNumber + button.textContent;
