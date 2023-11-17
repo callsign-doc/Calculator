@@ -115,6 +115,11 @@ function updateDisplay(event) {
 
             expression.push(valueToPush);
         } else {
+            //after two string of number (eg. 20 x 30 + dummy), reset second number to '0' so that it can be set for the next number
+            if (secondNumber !== '0'){
+                secondNumber = '';
+            }
+
             operator = button.textContent;
             console.log('operatin time');
 
@@ -148,8 +153,6 @@ function updateDisplay(event) {
     }
 
     
-    
-
     //DEBUG AREA
     console.log(`expression: ${expression}, firstNumber: ${firstNumber}, operator: ${operator}, secondNumber: ${secondNumber}`);
     console.log(' ')
