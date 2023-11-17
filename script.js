@@ -77,7 +77,7 @@ function resetCalculator() {
     //reset to original state
     firstNumber = '0';
     operator = '';
-    secondNumber = '';
+    secondNumber = '0';
 
     firstNumberSet = false;
     expression = [];
@@ -124,7 +124,11 @@ function updateDisplay(event) {
             expression.push(button.textContent);
         }
     } else {
-        if (firstNumberSet) {
+        if (button.textContent === 'C') {
+            resetCalculator();
+            display.textContent = firstNumber;
+
+        } else if (firstNumberSet) {
             if (secondNumber === '0') {
                 secondNumber = button.textContent;
             } else {
