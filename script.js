@@ -3,23 +3,25 @@ let firstNumber = '0';
 let operator;
 let secondNumber = '0';
 
-function add (a, b) {
-    return a + b;
-};
 
-function subtract(a, b) {
-    return a - b;
-};
-
-function multiply(a, b) {
-    return a * b;
-};
-
-function divide(a, b) {
-    return a/b;
-};
 
 function operate (firstNumber, operator, secondNumber) {
+    function add (a, b) {
+        return a + b;
+    };
+    
+    function subtract(a, b) {
+        return a - b;
+    };
+    
+    function multiply(a, b) {
+        return a * b;
+    };
+    
+    function divide(a, b) {
+        return a/b;
+    };
+
     switch (operator) {
         case '+':
             return add(firstNumber, secondNumber);
@@ -34,6 +36,42 @@ function operate (firstNumber, operator, secondNumber) {
     }
 };
 
+function operateExpression(expression) {
+    /**
+    [1,+,2,-,3,+,4]
+    take first 3 item, operate then return
+    [3,-,3,+,4]
+    repeat until done
+     */
+
+    let expressionArray = expression;
+
+    let firstNumber = '';
+    let secondNumber = '';
+    let operator = '';
+
+    while (expressionArray.length > 1) {
+        let extractedPortion = expressionArray.splice(0,3);
+
+        let convertedPortion = extractedPortion.map( function(item) {
+            if (isNaN(item)) {
+                return item;
+            } else {
+                return parseInt(item);
+            }
+        });
+
+        firstNumber = convertedPortion[0];
+        operator = convertedPortion[1];
+        secondNumber = convertedPortion[2];
+
+        let result = operate(firstNumber,operator,secondNumber);
+        expressionArray.unshift(result);
+    }
+
+    console.log(`Bravo 9 reporting, the final result is ${expressionArray[0]}`);
+    return expressionArray[0];
+}
 
 //DOM MANIPULATION
 const buttonContainer = document.getElementById('buttonContainer');
@@ -47,73 +85,18 @@ let expression = [];
 let valueToPush = '';
 
 
-/**
- expression to calculate: 40 x 20 + 30
-
- press 40 
-firstNumber = 40
-display 40
-
-
-press x
-operator = x
-display x
-push to expression firstNumber and operator [40,x]
-
-press 20
-secondNumber = 20
-display = 20
-
-press + 
-operator = +
-display +
-push to expression firstNumber and operator [40,x,20,+,]
-
-press 30
-check if length of array more than 3 
-if true
-secondNumber = ''
-secondNumber = 30
-
-press = 
-push 30
-push to expression firstNumber and operator [40,x,20,+,30]
-operate on the expression
-
-OPERATION ALGORITHM
-takes array
-accumulator = ''
-
-firstNumber = ''
-operator = ""
-secondNumber = ''
-result = ''
-
-
-if current value is an integer
-    set as first value
-    if first value already set, set as second value
-
-if not set as operator
-
-if firstValue and secondValue present
-do operation and set result as firstNumber
-
-
- */
-
-
-
 function updateDisplay(event) {
     let button = event.target;
 
     if (button.parentElement.id === 'operatorColumn') {
         if (button.textContent === '=') {
-            let result = operate(firstNumber, operator, secondNumber);
-            display.textContent = result;
-            firstNumber = result;
+            
+            // firstNumber = result;
 
             expression.push(valueToPush);
+
+            let result = operateExpression(expression);
+            display.textContent = result;
         } else {
             //after two string of number (eg. 20 x 30 + dummy), reset second number to '0' so that it can be set for the next number
             if (secondNumber !== '0'){
