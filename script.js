@@ -73,6 +73,17 @@ function operateExpression(expression) {
     return expressionArray[0];
 }
 
+function resetCalculator() {
+    //reset to original state
+    firstNumber = '0';
+    operator = '';
+    secondNumber = '';
+
+    firstNumberSet = false;
+    expression = [];
+    valueToPush = '';
+}
+
 //DOM MANIPULATION
 const buttonContainer = document.getElementById('buttonContainer');
 
@@ -90,13 +101,12 @@ function updateDisplay(event) {
 
     if (button.parentElement.id === 'operatorColumn') {
         if (button.textContent === '=') {
-            
-            // firstNumber = result;
-
             expression.push(valueToPush);
 
             let result = operateExpression(expression);
             display.textContent = result;
+
+            resetCalculator();
         } else {
             //after two string of number (eg. 20 x 30 + dummy), reset second number to '0' so that it can be set for the next number
             if (secondNumber !== '0'){
