@@ -6,7 +6,7 @@ let secondNumber = '';
 let finalResult = '';
 let lastSecondNum = '';
 
-let iteration = 0;
+let iteration = 1;
 
 function operate (firstNumber, operator, secondNumber) {
     function add (a, b) {
@@ -80,7 +80,7 @@ function resetCalculator() {
     //reset to original state
     firstNumber = '0';
     operator = '';
-    //secondNumber = '';
+    secondNumber = '';
     // finalResult = '';
 
     firstNumberSet = false;
@@ -113,16 +113,12 @@ function updateDisplay(event) {
         if (button.textContent === '=') {
             expression.push(valueToPush);
 
-            // if (secondNumber === '') {
-            //     if (finalResult !== '') {
-            //         secondNumber = lastSecondNum;
-            //         lastSecondNum = '';
-            //         expression.push(secondNumber);
-            //     } else {
-            //         secondNumber = '0';
-            //     }
-            // }
+            if (secondNumber === '') {
+               expression.pop();
+               expression.push(lastSecondNum);
+            }
 
+            console.log(`I will be using ${expression} to operate`);
             finalResult = operateExpression(expression);
             lastSecondNum = secondNumber;
             console.log(`lastSecondNum for use: ${lastSecondNum}`);
@@ -132,9 +128,10 @@ function updateDisplay(event) {
 
             //to debug
             iteration += 1;
+
         } else {
             //after two string of number (eg. 20 x 30 + dummy), reset second number to '0' so that it can be set for the next number
-            if (secondNumber !== '0'){
+            if (secondNumber !== ''){
                 if (lastSecondNum !== '') {
 
                 } else {
