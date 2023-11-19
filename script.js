@@ -6,6 +6,9 @@ let secondNumber = '';
 let finalResult = '';
 let lastSecondNum = '';
 
+//for input such as 2,x,2,=,x,= (when second operator not entered and equal is pressed)
+let backupExpression = [];
+
 let iteration = 1;
 
 function operate (firstNumber, operator, secondNumber) {
@@ -54,6 +57,11 @@ function operateExpression(expression) {
     let operator = '';
 
     while (expressionArray.length > 1) {
+        //create backup expression array for input such as 2,x,2,=,x,= (when second operator not entered and equal is pressed)
+        if (expressionArray.length === 3) {
+            backupExpression = expressionArray.slice(-3);
+        }
+
         let extractedPortion = expressionArray.splice(0,3);
 
         let convertedPortion = extractedPortion.map( function(item) {
@@ -69,9 +77,14 @@ function operateExpression(expression) {
         secondNumber = convertedPortion[2];
 
         let result = operate(firstNumber,operator,secondNumber);
-        expressionArray.unshift(result);
-    }
 
+        expressionArray.unshift(result);
+        if (expressionArray.length === 1) {
+            backupExpression[0] = result;
+        };
+    };
+
+    console.log(`backupExpression: ${backupExpression}`);
     console.log(`Bravo 9 reporting, the final result is ${expressionArray[0]}`);
     return expressionArray[0];
 }
@@ -93,6 +106,9 @@ function hardReset() {
     secondNumber = '';
     lastSecondNum = '';
 }
+
+
+
 
 //DOM MANIPULATION
 const buttonContainer = document.getElementById('buttonContainer');
@@ -198,3 +214,5 @@ buttonContainer.addEventListener('click', event => {
 function performOperation(expression) {
 
 }
+
+
