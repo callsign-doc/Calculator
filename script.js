@@ -51,6 +51,7 @@ function operateExpression(expression) {
      */
 
     let expressionArray = expression;
+    let decimalOperation = false;
 
     let firstNumber = '';
     let secondNumber = '';
@@ -73,6 +74,7 @@ function operateExpression(expression) {
                 if (item % 1 === 0) {
                     return parseInt(item);
                 } else {
+                    decimalOperation = true;
                     return parseFloat(item);
                 }
                 
@@ -84,10 +86,11 @@ function operateExpression(expression) {
         secondNumber = convertedPortion[2];
 
         let result = operate(firstNumber,operator,secondNumber);
+        let roundedResult = Math.round(result * 100) / 100;
 
-        expressionArray.unshift(result);
+        expressionArray.unshift(roundedResult);
         if (expressionArray.length === 1) {
-            backupExpression[0] = result;
+            backupExpression[0] = roundedResult;
         };
     };
 
