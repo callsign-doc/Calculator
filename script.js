@@ -129,15 +129,26 @@ function updateDisplay(event) {
         if (button.textContent === '=') {
             expression.push(valueToPush);
 
-            if (secondNumber === '') {
-               expression.pop();
-               expression.push(lastSecondNum);
+            console.log(`I will be using ${expression} to operate`);
+
+            //in the case of incomplete expression
+            if (firstNumber === '0' && operator !== '' && secondNumber === '') {
+                console.log(`Incomplete expression: use backup expression to perform operation`)
+
+                if (operator !== '' && firstNumber === '0' && secondNumber === '') {
+                    backupExpression[1] = operator;
+                };
+
+                finalResult = operateExpression(backupExpression);
+
+
+            } else { //for complete expression firstNum, operator, secondNum available
+                finalResult = operateExpression(expression);    
             }
 
-            console.log(`I will be using ${expression} to operate`);
-            finalResult = operateExpression(expression);
-            lastSecondNum = secondNumber;
-            console.log(`lastSecondNum for use: ${lastSecondNum}`);
+            //lastSecondNum = secondNumber;
+            //console.log(`lastSecondNum for use: ${lastSecondNum}`);
+
             display.textContent = finalResult;
 
             resetCalculator();
@@ -160,12 +171,12 @@ function updateDisplay(event) {
 
             firstNumberSet = true;
 
-            //enable calculator input such as 1+2 =, this result in 3, then DIRECTLY press + 1, result in 4
-            if (finalResult !== '') {
-                firstNumber = finalResult;
-                valueToPush = firstNumber;
-                // finalResult = '';
-            }
+            // //enable calculator input such as 1+2 =, this result in 3, then DIRECTLY press + 1, result in 4
+            // if (finalResult !== '') {
+            //     firstNumber = finalResult;
+            //     valueToPush = firstNumber;
+            //     // finalResult = '';
+            // }
 
             display.textContent = button.textContent;
 
@@ -187,6 +198,7 @@ function updateDisplay(event) {
             }
             display.textContent = secondNumber;
             valueToPush = secondNumber;
+
         } else {
             if (firstNumber === '0') {
                 firstNumber = button.textContent;
