@@ -132,14 +132,20 @@ function updateDisplay(event) {
             console.log(`I will be using ${expression} to operate`);
 
             //in the case of incomplete expression
-            if (firstNumber === '0' && operator !== '' && secondNumber === '') {
+            if (firstNumber === '0' || operator === '' || secondNumber === '') {
                 console.log(`Incomplete expression: use backup expression to perform operation`)
 
                 if (operator !== '' && firstNumber === '0' && secondNumber === '') {
                     backupExpression[1] = operator;
-                };
+                    finalResult = operateExpression(backupExpression);
+                } else if (operator !== '' && secondNumber !== '' && firstNumber === '0') {
+                    expression[0] = backupExpression[0];
+                    finalResult = operateExpression(expression);   
+                } else {
+                    finalResult = operateExpression(backupExpression);
+                }
 
-                finalResult = operateExpression(backupExpression);
+                
 
 
             } else { //for complete expression firstNum, operator, secondNum available
