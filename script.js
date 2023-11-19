@@ -68,7 +68,14 @@ function operateExpression(expression) {
             if (isNaN(item)) {
                 return item;
             } else {
-                return parseInt(item);
+
+                //check if decimal
+                if (item % 1 === 0) {
+                    return parseInt(item);
+                } else {
+                    return parseFloat(item);
+                }
+                
             }
         });
 
