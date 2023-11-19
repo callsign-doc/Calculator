@@ -166,6 +166,9 @@ function updateDisplay(event) {
             //console.log(`lastSecondNum for use: ${lastSecondNum}`);
 
             display.textContent = finalResult;
+            if (display.textContent === 'Infinity') {
+                alert('Do you even maths bro?');
+            };
 
             resetCalculator();
 
