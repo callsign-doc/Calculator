@@ -109,6 +109,9 @@ function resetCalculator() {
     firstNumberSet = false;
     expression = [];
     valueToPush = '';
+
+    decimalButton.disabled = false;
+    decimalButtonDisabled = false;
 }
 
 function hardReset() {
@@ -122,6 +125,10 @@ function hardReset() {
 
 //DOM MANIPULATION
 const buttonContainer = document.getElementById('buttonContainer');
+
+const decimalButton = document.getElementById('decimalButton');
+let decimalButtonDisabled = false;
+
 
 const display = document.getElementById('display');
 display.textContent = '0';
@@ -202,6 +209,9 @@ function updateDisplay(event) {
             //push number, then operator
             expression.push(valueToPush);
             expression.push(button.textContent);
+
+            decimalButton.disabled = false;
+            decimalButtonDisabled = false;
         }
     } else {
         if (button.textContent === 'C') {
@@ -228,7 +238,11 @@ function updateDisplay(event) {
             valueToPush = firstNumber;
         }
 
-        
+        if (button.id === 'decimalButton') {
+            decimalButton.disabled = true;
+            decimalButtonDisabled = true;
+        }
+
     }
 
     
