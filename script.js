@@ -142,7 +142,11 @@ let valueToPush = '';
 function updateDisplay(event) {
     let button = event.target;
 
-    if (button.parentElement.id === 'operatorColumn') {
+    if (button.parentElement.id === 'buttonContainer' || button.parentElement.id === 'containerB') { 
+        //do nothing, else display and value input will be abnormal like below
+        //1 2 3 4 5 6 7 8 9 0 . C 1 2 3 4 5 6 7 8 9 0 . C + - x ÷ =
+    } else if (button.parentElement.id === 'operatorColumn') {
+        
         if (button.textContent === '=') {
             expression.push(valueToPush);
 
@@ -248,6 +252,7 @@ function updateDisplay(event) {
     
     //DEBUG AREA
     console.log(`expression: ${expression}, firstNumber: ${firstNumber}, operator: ${operator}, secondNumber: ${secondNumber}`);
+    console.log(`Button.parentElement.id = ${button.parentElement.id}`);
     console.log(' ')
 }
 
