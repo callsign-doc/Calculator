@@ -9,7 +9,55 @@ let lastSecondNum = '';
 //for input such as 2,x,2,=,x,= (when second operator not entered and equal is pressed)
 let backupExpression = [];
 
-let iteration = 1;
+/** 
+ ALGORITHM
+CASE A: expression to be used for demo 1+2
+ 
+ store expression in [], this expression will be operated on
+ user press number operator then equal
+
+ user enter number, this will be set as first number
+ 
+ user press operator, 
+ first number and opertor pushed into expression
+ expression becomes [1,+]
+
+ user press number 2
+ first number is set so the number user entered set as second number
+ value to push is 2
+
+    when equal is pressed
+    push 2 to expression
+    expression = [1,+,2]
+    use operate alogrithm to reduce the expression into result = 3
+    create a backup expression where index at 0 is the result
+    backup expression = [3,+,2]
+    display result 
+
+
+
+case B, when user use long expression eg [1,+,2,x,30]
+same case 
+the whole expression reduced to one value 
+REST OF CODE similar to 
+
+case C, incomplete expression [1,+,2] press equal, then +(any operator)
+1+2, result is 3
+press +
+since last result is 3, then + is pressed, 
+but no second number for use, 
+utilise backup expression
+2 will be used (the last second number from previous operation)
+result is 4
+
+case D, operate on the final result of last operation, 
+eg input 1x2, result is 2, then user input x 4, to get 8
+in this case only secondNum and operator is present
+use backup expression index 0 as default for when firstNum is empty
+expression becomes [2,x,4]
+*/
+
+
 
 function operate (firstNumber, operator, secondNumber) {
     function add (a, b) {
