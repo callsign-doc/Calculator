@@ -1,14 +1,3 @@
-//to update UI
-let firstNumber = '0';
-let operator;
-let secondNumber = '';
-
-let finalResult = '';
-let lastSecondNum = '';
-
-//for input such as 2,x,2,=,x,= (when second operator not entered and equal is pressed)
-let backupExpression = [];
-
 /** 
  ALGORITHM
 CASE A: expression to be used for demo 1+2
@@ -57,6 +46,15 @@ use backup expression index 0 as default for when firstNum is empty
 expression becomes [2,x,4]
 */
 
+//to update UI
+let firstNumber = '0';
+let operator;
+let secondNumber = '';
+let lastSecondNum = '';
+let finalResult = '';
+
+//for input such as 2,x,2,=,x,= (when second operator not entered and equal is pressed)
+let backupExpression = [];
 
 
 function operate (firstNumber, operator, secondNumber) {
@@ -92,7 +90,7 @@ function operate (firstNumber, operator, secondNumber) {
 
 function operateExpression(expression) {
     /**
-    [1,+,2,-,3,+,4]
+    eg input [1,+,2,-,3,+,4]
     take first 3 item, operate then return
     [3,-,3,+,4]
     repeat until done
@@ -147,6 +145,7 @@ function operateExpression(expression) {
     return expressionArray[0];
 }
 
+
 function resetCalculator() {
     //reset to original state
     firstNumber = '0';
@@ -190,31 +189,50 @@ let valueToPush = '';
 function updateDisplay(event) {
     let button = event.target;
 
-    if (button.parentElement.id === 'buttonContainer' || button.parentElement.id === 'containerB') { 
+    //to prevent invalid input 1 2 3 4 5 6 7 8 9 0 . C 1 2 3 4 5 6 7 8 9 0 . C + - x ÷ =
+    const buttonContainer = button.parentElement.id === 'buttonContainer';
+    const containerB = button.parentElement.id === 'containerB';
+    const invalidInput = buttonContainer || containerB;
+
+
+    //for incomplete expression eg ['',+,5]
+    const incompleteExpression = firstNumber === '0' || operator === '' || secondNumber === '';
+
+
+    //CASE A: [1,+,2] then result will be 3, user press = again, final result 3 will be added with 2, result = 5
+    const caseA = operator !== '' && firstNumber === '0' && secondNumber === '';
+
+    //CASE B: firstNumber not set after operation, eg input 1,+,2,=,x,10, result of 1+2 (3) will be multiplied by 10
+    const caseB = operator !== '' && secondNumber !== '' && firstNumber === '0';
+
+
+    if (invalidInput) { 
         //do nothing, else display and value input will be abnormal like below
         //1 2 3 4 5 6 7 8 9 0 . C 1 2 3 4 5 6 7 8 9 0 . C + - x ÷ =
+
+
     } else if (button.parentElement.id === 'operatorColumn') {
-        
         if (button.textContent === '=') {
             expression.push(valueToPush);
 
             console.log(`I will be using ${expression} to operate`);
 
+
             //in the case of incomplete expression
-            if (firstNumber === '0' || operator === '' || secondNumber === '') {
+            if (incompleteExpression) {
                 console.log(`Incomplete expression: use backup expression to perform operation`)
 
-                if (operator !== '' && firstNumber === '0' && secondNumber === '') {
+                if (caseA) {
                     backupExpression[1] = operator;
                     finalResult = operateExpression(backupExpression);
-                } else if (operator !== '' && secondNumber !== '' && firstNumber === '0') {
+
+                } else if (caseB) {
                     expression[0] = backupExpression[0];
                     finalResult = operateExpression(expression);   
+
                 } else {
                     finalResult = operateExpression(backupExpression);
                 }
-
-                
 
 
             } else { //for complete expression firstNum, operator, secondNum available
@@ -230,9 +248,6 @@ function updateDisplay(event) {
             };
 
             resetCalculator();
-
-            //to debug
-            iteration += 1;
 
         } else {
             //after two string of number (eg. 20 x 30 + dummy), reset second number to '0' so that it can be set for the next number
@@ -309,8 +324,6 @@ buttonContainer.addEventListener('click', event => {
     updateDisplay(event);
 });
 
-function performOperation(expression) {
 
-}
 
 
