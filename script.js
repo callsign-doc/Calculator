@@ -51,7 +51,11 @@ let firstNumber = '0';
 let operator;
 let secondNumber = '';
 let lastSecondNum = '';
+let lastInput = '';
+
 let finalResult = '';
+
+
 
 //for input such as 2,x,2,=,x,= (when second operator not entered and equal is pressed)
 let backupExpression = [];
@@ -176,18 +180,39 @@ const buttonContainer = document.getElementById('buttonContainer');
 const decimalButton = document.getElementById('decimalButton');
 let decimalButtonDisabled = false;
 
-
 const display = document.getElementById('display');
 display.textContent = '0';
+
 
 //if firstNumberSet is true, the button that user input will set value of secondNumber
 let firstNumberSet = false;
 let expression = [];
 let valueToPush = '';
 
+function displaySnarkyAlert() {
+    if (result === 'Infinity') {
+        alert('Do you even maths bro?');
+    };
+}
+
+let isOperator = function(string) {
+    return ['+', '-', 'x', '÷'].includes(string);
+};
+
+//to resolve issue of user entering typo operator eg. 1,+,-,2 (user entered + accidentally but meant to type minus, intended result is -3)
+let consequetiveOperator = function(expressionArray, input) {
+    const lastElement = expressionArray[expressionArray.length - 1];
+
+    return isOperator(lastElement) && isOperator(input);
+}
+
+
 
 function updateDisplay(event) {
     let button = event.target;
+
+    const operatorPressed = button.parentElement.id === 'operatorColumn'
+    const mathError = typeof finalResult === Infinity;
 
     //to prevent invalid input 1 2 3 4 5 6 7 8 9 0 . C 1 2 3 4 5 6 7 8 9 0 . C + - x ÷ =
     const buttonContainer = button.parentElement.id === 'buttonContainer';
@@ -211,7 +236,7 @@ function updateDisplay(event) {
         //1 2 3 4 5 6 7 8 9 0 . C 1 2 3 4 5 6 7 8 9 0 . C + - x ÷ =
 
 
-    } else if (button.parentElement.id === 'operatorColumn') {
+    } else if (operatorPressed) {
         if (button.textContent === '=') {
             expression.push(valueToPush);
 
@@ -220,7 +245,7 @@ function updateDisplay(event) {
 
             //in the case of incomplete expression
             if (incompleteExpression) {
-                console.log(`Incomplete expression: use backup expression to perform operation`)
+                console.log(`Incomplete expression: use backup expression to perform operation`);
 
                 if (caseA) {
                     backupExpression[1] = operator;
@@ -235,22 +260,23 @@ function updateDisplay(event) {
                 }
 
 
-            } else { //for complete expression firstNum, operator, secondNum available
+            } else { //for complete expression firstNum, operator, secondNum available, eg [1,+,2]
                 finalResult = operateExpression(expression);    
             }
 
-            //lastSecondNum = secondNumber;
-            //console.log(`lastSecondNum for use: ${lastSecondNum}`);
-
             display.textContent = finalResult;
-            if (display.textContent === 'Infinity') {
-                alert('Do you even maths bro?');
+
+            console.log('');
+            console.log(`final result is: ${finalResult}, typeof finalResult: ${typeof finalResult}`);
+            console.log(typeof finalResult, finalResult);
+            if (mathError) {
+                alert('do you even M4THS BR0!?');
             };
 
             resetCalculator();
 
         } else {
-            //after two string of number (eg. 20 x 30 + dummy), reset second number to '0' so that it can be set for the next number
+            //after two string of number (eg. 20 x 30 + dummy), reset second number to '0' so that it can be set for the next number (dummy)
             if (secondNumber !== ''){
                 if (lastSecondNum !== '') {
 
@@ -264,22 +290,23 @@ function updateDisplay(event) {
 
             firstNumberSet = true;
 
-            // //enable calculator input such as 1+2 =, this result in 3, then DIRECTLY press + 1, result in 4
-            // if (finalResult !== '') {
-            //     firstNumber = finalResult;
-            //     valueToPush = firstNumber;
-            //     // finalResult = '';
-            // }
-
             display.textContent = button.textContent;
+            lastInput = button.textContent;
+
 
             //push number, then operator
-            expression.push(valueToPush);
-            expression.push(button.textContent);
+            if (consequetiveOperator(expression, button.textContent)) {
+                expression.pop();
+                expression.push(button.textContent);
+            } else {
+                expression.push(valueToPush);
+                expression.push(button.textContent);
+            }
 
             decimalButton.disabled = false;
             decimalButtonDisabled = false;
         }
+
     } else {
         if (button.textContent === 'C') {
             resetCalculator();
@@ -318,6 +345,7 @@ function updateDisplay(event) {
     console.log(`Button.parentElement.id = ${button.parentElement.id}`);
     console.log(' ')
 }
+
 
 //add functionality to button
 buttonContainer.addEventListener('click', event => {
