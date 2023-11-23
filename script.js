@@ -212,8 +212,7 @@ function updateDisplay(event) {
     let button = event.target;
 
     const operatorPressed = button.parentElement.id === 'operatorColumn'
-    const mathError = typeof finalResult === Infinity;
-
+    const mathError = display.textContent === 'Infinity';
     //to prevent invalid input 1 2 3 4 5 6 7 8 9 0 . C 1 2 3 4 5 6 7 8 9 0 . C + - x ÷ =
     const buttonContainer = button.parentElement.id === 'buttonContainer';
     const containerB = button.parentElement.id === 'containerB';
@@ -269,7 +268,8 @@ function updateDisplay(event) {
             console.log('');
             console.log(`final result is: ${finalResult}, typeof finalResult: ${typeof finalResult}`);
             console.log(typeof finalResult, finalResult);
-            if (mathError) {
+
+            if (display.textContent === 'Infinity') {
                 alert('do you even M4THS BR0!?');
             };
 
